@@ -1,0 +1,48 @@
+<div class="widget widget-recent-posts">
+    <h3 class="widget-title">最新文章</h3>
+    <ul>
+        {% for article in new_lsit %}
+            <li>
+                <a href="{% url 'app1:article' article.created_time.year article.created_time.month article.created_time.day  %}?ids={{ article.id }}">{{ article.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+<div class="widget widget-archives">
+    <h3 class="widget-title">归档</h3>
+    <ul>
+        {% for i in offside_dates %}
+            <li>
+                <a href="{% url 'app1:year_month_article' i.year  %}">{{ i.year }}年{{ i.month }}月<span
+                        class="post-count">({{ i.count }})</span></a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="widget widget-category">
+    <h3 class="widget-title">分类</h3>
+    <ul>
+        {% for catalog in catalog_lsit %}
+            <li>
+                <a href="{% url 'app1:year_month_article' catalog.name %}">{{ catalog.name }} <span
+                        class="post-count">({{ catalog.article_set.count }})</span></a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="widget widget-tag-cloud">
+    <h3 class="widget-title">标签云</h3>
+    <ul>
+        {% for tag in tag_lsit %}
+
+            <li>
+                <a href="#">{{ tag.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+<div class="rss">
+    <a href=""><span class="ion-social-rss-outline"></span> RSS 订阅</a>
+</div>
