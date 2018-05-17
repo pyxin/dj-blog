@@ -84,17 +84,13 @@ class Catalog(BaseModel):
         verbose_name = "目录"
 
 
-# class Comment(BaseModel):
-#     body = models.TextField(verbose_name='评论')
-
-
 class Article(BaseModel):
     """文章"""
     original_reprint = (
         ('0', '原创'),
         ('1', '转载'),
     )
-    date = models.DateField('日期统计用')
+    # date = models.DateField('日期统计用')
     # created_time = models.DateTimeField('创建时间', default=timezone.now)
     title = models.CharField(verbose_name='标题', max_length=200)
     digest = models.CharField(verbose_name='摘要', max_length=200, default='')
@@ -126,3 +122,18 @@ class Article(BaseModel):
         verbose_name = "文章"
         verbose_name_plural = verbose_name
         get_latest_by = 'created_time'
+
+
+class Comment(BaseModel):
+    body = models.TextField(verbose_name='评论')
+    article = models.ForeignKey(Article, verbose_name='文章', on_delete=models.CASCADE, default=1)
+    user = models.ForeignKey(User, verbose_name='用户', on_delete=models.CASCADE, default=1)
+
+    def __str__(self):
+        return self.body
+
+    class Meta:
+        ordering = ['-created_time']
+        db_table = "blog_comment"
+        verbose_name = "评论"
+        verbose_name_plural = verbose_name
